@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  app:
+    build: ./docker
+    ports:
+      - "8080:80"
+    volumes:
+      # Mount source-code for development
+      - ./:/var/www
+  db:
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql-config.cnf:/etc/mysql/conf.d/config.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devs-book-mvc
+      MYSQL_USER: devs-book-mvc-user
+      MYSQL_PASSWORD: password
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+
+volumes:
+  mysql-data:

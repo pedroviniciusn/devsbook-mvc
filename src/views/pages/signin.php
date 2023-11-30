@@ -22,13 +22,13 @@
         </span>
       <?php endif; ?>
 
-      <input placeholder="Digite seu e-mail" class="input" type="email" name="email" />
+      <input placeholder="Digite seu E-mail" class="input" type="email" name="email" />
 
-      <input placeholder="Digite sua senha" class="input" type="password" name="password" />
+      <input placeholder="Digite sua Senha" class="input" type="password" name="password" />
 
       <input class="button" type="submit" value="Acessar o sistema" />
 
-      <a href="/register">Ainda não tem conta? Cadastre-se</a>
+      <a href="/register">Ainda não tem uma conta? Cadastre-se</a>
     </form>
   </section>
 </body>

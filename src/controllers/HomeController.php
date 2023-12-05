@@ -12,14 +12,16 @@ class HomeController extends Controller
 
   public function __construct()
   {
-    $logged_user = LoginHandler::checkLogin();
+    $this->logged_user = LoginHandler::checkLogin();
 
-    if (!$logged_user) $this->redirect('/login');
+    if (!$this->logged_user) $this->redirect('/login');
   }
 
   public function index()
   {
-    echo 'HOME';
-    // $this->render('home');
+
+    $this->render('home', [
+      'user' => $this->logged_user
+    ]);
   }
 }

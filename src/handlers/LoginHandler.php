@@ -14,16 +14,17 @@ class LoginHandler
 
     $token = $_SESSION['token'];
 
-    $data = User::select()->where('token', $token)->one();
+    $user = User::select()->where('token', $token)->one();
 
-    if (!count($data) > 0) {
+    if (!count($user) > 0) {
       return false;
     }
 
     $loggedUser = new User();
-    // $loggedUser->setId($data['id']);
-    // $loggedUser->setName($data['name']);
-    // $loggedUser->setEmail($data['email']);
+    $loggedUser->setId($user['id']);
+    $loggedUser->setName($user['name']);
+    $loggedUser->setEmail($user['email']);
+    $loggedUser->setAvatar($user['avatar']);
 
     return $loggedUser;
   }
@@ -42,7 +43,7 @@ class LoginHandler
 
     $token = md5(time() . rand(0, 9999) . time());
 
-    $user::update()
+    User::update()
       ->set('token', $token)
       ->where('email', $email)
       ->execute();
@@ -56,7 +57,8 @@ class LoginHandler
     return $user ? true : false;
   }
 
-  public static function addUser($name, $email, $password, $birthdate) {
+  public static function addUser($name, $email, $password, $birthdate)
+  {
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $token = md5(time() . rand(0, 9999) . time());
 

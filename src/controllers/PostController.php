@@ -6,7 +6,7 @@ use \core\Controller;
 use \src\handlers\LoginHandler;
 use src\handlers\PostHandler;
 
-class HomeController extends Controller
+class PostController extends Controller
 {
 
   private $logged_user;
@@ -18,18 +18,23 @@ class HomeController extends Controller
     if (!$this->logged_user) $this->redirect('/login');
   }
 
-  public function index()
+  public function create()
   {
-    $page = intval(filter_input(INPUT_GET, 'page'));
 
-    $homePosts = PostHandler::getHomePosts(
+    $postContent = filter_input(INPUT_POST, 'body');
+
+    if (!$postContent) $this->redirect('/');
+
+    PostHandler::createPost(
       $this->logged_user->getId(),
-      $page
+      'text',
+      $postContent
     );
 
+    $this->redirect('/');
+
     $this->render('home', [
-      'user' => $this->logged_user,
-      'homePosts' => $homePosts
+      'user' => $this->logged_user
     ]);
   }
 }

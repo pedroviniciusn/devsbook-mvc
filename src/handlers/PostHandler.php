@@ -76,4 +76,75 @@ class PostHandler
       'currentPage' => $page
     ];
   }
+
+  public static function getUserPosts($userId, $page)
+  {
+    $postsPerpage = 2;
+
+    $posts = Post::select()
+      ->where('id_user', $userId)
+      ->orderBy('created_at', 'desc')
+      ->page($page, $postsPerpage)
+      ->get();
+
+    $postsCount = Post::select()
+      ->where('id_user', $userId)
+      ->count();
+
+    $pageCount = ceil($postsCount / $postsPerpage);
+
+    $userPosts = [];
+
+    foreach ($posts as $post) {
+      $user = User::select()->where('id', $post['id_user'])->one();
+
+      $postMine = false;
+
+      if ($post['id_user'] == $user['id']) $postMine = true;
+
+      $userPosts[] = [
+        'id' => $post['id'],
+        'type' => $post['type'],
+        'created_at' => $post['created_at'],
+        'mine' => $postMine,
+        'body' => $post['body'],
+        'likeCount' => 1,
+        'comments' => [],
+        'user' => [
+          'id' => $user['id'],
+          'name' => $user['name'],
+          'avatar' => $user['avatar']
+        ]
+      ];
+    }
+
+    return [
+      'posts' => $userPosts,
+      'pageCount' => $pageCount,
+      'currentPage' => $page
+    ];
+  }
+
+  public static function getPhotos($userId)
+  {
+    $photosResponse = [];
+
+    $photos = Post::select()
+      ->where('id_user', $userId)
+      ->where('type', 'photo')
+      ->get();
+
+      foreach ($photos as $photo) {
+        $post = new Post();
+        $post->setId($photo['id']);
+        $post->setUserId($photo['id_user']);
+        $post->setType($photo['type']);
+        $post->setBody($photo['body']);
+        $post->setCreatedAt($photo['created_at']);
+
+        $photosResponse[] = $post;
+      }
+
+      return $photosResponse;
+  }
 }

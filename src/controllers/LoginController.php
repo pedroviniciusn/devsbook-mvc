@@ -4,6 +4,7 @@ namespace src\controllers;
 
 use \core\Controller;
 use src\handlers\LoginHandler;
+use src\handlers\UserHandler;
 
 class LoginController extends Controller
 {
@@ -84,15 +85,21 @@ class LoginController extends Controller
       $this->redirect('/register');
     }
 
-    if (LoginHandler::emailExists($email)) {
+    if (UserHandler::emailExists($email)) {
       $_SESSION['flash'] = 'E-mail já cadastrado';
       $this->redirect('/register');
     }
 
-    $token = LoginHandler::addUser($name, $email, $password, $birthdate);
+    $token = UserHandler::addUser($name, $email, $password, $birthdate);
 
     $_SESSION['token'] = $token;
 
     $this->redirect('/');
+  }
+
+  public function logout()
+  {
+    $_SESSION['token'] = '';
+    $this->redirect('/login');
   }
 }

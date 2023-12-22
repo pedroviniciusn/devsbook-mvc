@@ -11,6 +11,14 @@ class User extends Model
   private $email;
   private $token;
   private $avatar;
+  private $birthdate;
+  private $age;
+  private $cover;
+  private $city;
+  private $work;
+  private $followers;
+  private $following;
+  private $photos;
 
   public function getId()
   {
@@ -60,5 +68,85 @@ class User extends Model
   public function setAvatar($avatar)
   {
     $this->avatar = $avatar;
+  }
+
+  public function getBirthdate()
+  {
+    return $this->birthdate;
+  }
+
+  public function setBirthdate($birthdate)
+  {
+    $this->birthdate = $birthdate;
+  }
+
+  public function getCover()
+  {
+    return $this->cover;
+  }
+
+  public function setCover($cover)
+  {
+    $this->cover = $cover;
+  }
+
+  public function getCity()
+  {
+    return $this->city;
+  }
+
+  public function setCity($city)
+  {
+    $this->city = $city;
+  }
+
+  public function getWork()
+  {
+    return $this->work;
+  }
+
+  public function setWork($work)
+  {
+    $this->work = $work;
+  }
+
+  public function getFollowers()
+  {
+    return $this->followers;
+  }
+
+  public function setFollowers($followers)
+  {
+    $this->followers = $followers;
+  }
+
+  public function getFollowing()
+  {
+    return $this->following;
+  }
+
+  public function setFollowing($following)
+  {
+    $this->following = $following;
+  }
+
+  public function getPhotos()
+  {
+    return $this->photos;
+  }
+
+  public function setPhotos($photos)
+  {
+    $this->photos = $photos;
+  }
+
+  public function getAge()
+  {
+    return $this->age;
+  }
+
+  public function setAge($age)
+  {
+    $this->age = $age;
   }
 }

@@ -79,7 +79,6 @@ class UserHandler
 
       $following = User_Relation::select()
         ->where('user_to', $id)
-        ->page(1, 9)
         ->get();
 
       foreach ($following as $userFollowing) {

@@ -15,7 +15,10 @@ $router->post('/register', 'LoginController@signupAction');
 $router->get('/profile', 'ProfileController@index');
 $router->get('/profile/follow/{id}', 'ProfileController@follow');
 
-$router->get('/friends/{id}', 'ProfileController@friends');
+$router->get('/photos', 'ProfileController@photos');
+
 $router->get('/friends', 'ProfileController@friends');
+
+
 
 $router->post('/post', 'PostController@create');

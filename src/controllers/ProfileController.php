@@ -20,7 +20,7 @@ class ProfileController extends Controller
   }
 
 
-  public function index($args = [])
+  public function index()
   {
     $page = intval(filter_input(INPUT_GET, 'page'));
 
@@ -51,7 +51,33 @@ class ProfileController extends Controller
     ]);
   }
 
-  public function follow($args)
+  public function friends($args = [])
+  {
+
+    $id = $this->logged_user->getId();
+
+    if (isset($args['id'])) $id = intval($args['id']);
+
+    $user = UserHandler::getUser($id, true);
+
+    if (!$user) {
+      $this->redirect('/');
+    }
+
+    $isFollowing = false;
+
+    if ($user->getId() != $this->logged_user->getId()) {
+      $isFollowing = UserHandler::isFollowing($this->logged_user->getId(), $user->getId());
+    }
+
+    $this->render('friends', [
+      'loggedUser' => $this->logged_user,
+      'user' => $user,
+      'isFollowing' => $isFollowing,
+    ]);
+  }
+
+  public function follow($args = [])
   {
     $userTo = intval($args['id']);
 
@@ -63,6 +89,6 @@ class ProfileController extends Controller
       }
     }
 
-    return $this->redirect('/profile?id='.$userTo);
+    return $this->redirect('/profile?id=' . $userTo);
   }
 }

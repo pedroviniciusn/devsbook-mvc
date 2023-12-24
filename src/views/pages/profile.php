@@ -74,7 +74,7 @@
               <span>(<?= count($user->getFollowing()); ?>)</span>
             </div>
             <div class="box-header-buttons">
-              <a href="">ver todos</a>
+              <a href="/friends">ver todos</a>
             </div>
           </div>
           <div class="box-body friend-list">
@@ -105,10 +105,14 @@
               <span>(<?= count($user->getPhotos()); ?>)</span>
             </div>
             <div class="box-header-buttons">
-              <a href="">ver todos</a>
+              <a href="/photos?id=<?= $user->getId(); ?>">ver todos</a>
             </div>
           </div>
           <div class="box-body row m-20">
+
+            <?php if (count($user->getPhotos()) === 0) : ?>
+              Este usuário não possui fotos.
+            <?php endif; ?>
 
             <?php foreach ($user->getPhotos() as $photo) : ?>
               <div class="user-photo-item">

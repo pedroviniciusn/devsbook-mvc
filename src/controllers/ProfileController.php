@@ -51,12 +51,11 @@ class ProfileController extends Controller
     ]);
   }
 
-  public function friends($args = [])
+  public function friends()
   {
-
     $id = $this->logged_user->getId();
 
-    if (isset($args['id'])) $id = intval($args['id']);
+    if (intval(filter_input(INPUT_GET, 'id'))) $id = intval(filter_input(INPUT_GET, 'id'));
 
     $user = UserHandler::getUser($id, true);
 
@@ -71,6 +70,32 @@ class ProfileController extends Controller
     }
 
     $this->render('friends', [
+      'loggedUser' => $this->logged_user,
+      'user' => $user,
+      'isFollowing' => $isFollowing,
+    ]);
+  }
+
+  public function photos()
+  {
+
+    $id = $this->logged_user->getId();
+
+    if (intval(filter_input(INPUT_GET, 'id'))) $id = intval(filter_input(INPUT_GET, 'id'));
+
+    $user = UserHandler::getUser($id, true);
+
+    if (!$user) {
+      $this->redirect('/');
+    }
+
+    $isFollowing = false;
+
+    if ($user->getId() != $this->logged_user->getId()) {
+      $isFollowing = UserHandler::isFollowing($this->logged_user->getId(), $user->getId());
+    }
+
+    $this->render('photos', [
       'loggedUser' => $this->logged_user,
       'user' => $user,
       'isFollowing' => $isFollowing,
